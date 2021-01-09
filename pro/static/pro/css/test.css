@@ -1,0 +1,10 @@
+
+.allcards{
+    display: flex;
+    top: 40px;
+
+}
+
+.dropdown show{
+display : right;
+}

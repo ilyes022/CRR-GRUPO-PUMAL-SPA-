@@ -1,0 +1,123 @@
+{% include 'navvbar.html' %}
+{% load crispy_forms_tags %}
+
+
+
+<head>
+  <title>Disponibilté</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+  <h2>List Of Products :</h2>
+  <p>La disponibilité des produits chez les Revendeurs :</p>
+
+
+  <div class="row">
+    <div class="col">
+      <div class="card card-body">
+        <form class="form-inline my-2 my-lg-0" method="get">
+
+        {{myFilter.form | crispy}}
+
+        <button class="btn btn-primary" type = "submit"> Search</button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+
+            <th>Client</th>
+            <th>Région</th>
+            <th>Wilaya</th>
+            <th>Designation</th>
+            <th>Disponibilité</th>
+            <th>Qnt</th>
+            <th>Commande</th>
+            <th>Description</th>
+            <th>Dispo_concurrent</th>
+            <th>Date</th>
+
+
+      </tr>
+    </thead>
+
+                  {% for Pumal in page_object %}
+
+    <tbody>
+
+
+      <tr>
+
+
+
+        <td>{{Pumal.client}}</td>
+
+
+        <td>{{Pumal.région}}</td>
+
+         <td>{{Pumal.wilaya}}</td>
+
+        <td>{{Pumal.designation}}</td>
+
+
+        <td>{{Pumal.disponibilité}}</td>
+
+        <td>{{Pumal.quantité_disponible}}</td>
+
+        <td>{{Pumal.commande}}</td>
+
+
+        <td>{{Pumal.description}}</td>
+
+
+        <td>{{Pumal.disponibilité_concurrent}}</td>
+
+        <td>{{Pumal.date}}</td>
+
+
+      </tr>
+
+
+    </tbody>
+
+                  {% endfor %}
+
+  </table>
+
+  <div class="pagination">
+    <span class="step-links">
+        {% if page_object.has_previous %}
+            <a href="?page=1">&laquo; première-</a>
+            <a href="?page={{ page_object.previous_page_number }}">précédente</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_object.number }} Sur {{ page_object.paginator.num_pages }}.
+        </span>
+
+        {% if page_object.has_next %}
+            <a href="?page={{ page_object.next_page_number }}">suivante-</a>
+            <a href="?page={{ page_object.paginator.num_pages }}">dèrniere &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+</div>
+
+</body>
+
+

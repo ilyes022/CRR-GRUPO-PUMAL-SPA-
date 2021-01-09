@@ -1,0 +1,178 @@
+{% include 'navvbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<link href="{% static 'pro/css/test.css' %}" rel="stylesheet">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Suivi d'activité</title>
+
+</head>
+<body>
+<div class="allcards">
+ <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-15 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">NBR Clients :</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_all }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+ <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-15 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Clients (Ouest)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_ouest }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+<div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-15 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Clients (Centre)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_centre }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+<div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-15 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Clients (Est)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_est }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+</div>
+
+
+<div class="row">
+    <div class="col">
+      <div class="card card-body">
+        <form class="form-inline my-2 my-lg-0" method="get">
+
+        {{mynumberFilter.form | crispy}}
+
+        <button class="btn btn-primary" type = "submit"> Search</button>
+        </form>
+      </div>
+
+    </div>
+</div>
+
+
+
+
+<div id="container"></div>
+
+
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script>
+Highcharts.chart('container', {
+
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Nombre de Bon de Commande par Sac/Région/Mois '
+        },
+        xAxis: {
+            categories: [{%for Prod in produit_count%}'{{ Prod.designation__nom }} '{% if not forloop.last %}, {% endif %}{% endfor %}]
+        },
+        series: [{
+            name: 'OUEST',
+            data: [{% for entry in produit_count %}{{ entry.ouest_commande }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+
+
+
+        }, {
+            name: 'CENTRE',
+            data: [{% for entry in produit_count %}{{ entry.centre_commande }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+
+        }, {
+            name: 'EST',
+            data: [{% for entry in produit_count %}{{ entry.est_commande }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+        }]
+    });
+
+
+
+  </script>
+
+
+</body>
+
+<table class="table table-dark">
+    <thead>
+      <tr>
+          <th>Designation</th>
+        <th>Ouest_Commande</th>
+        <th>Centre_Commande</th>
+          <th>Est_Commande</th>
+          <th>Mois</th>
+
+        </tr>
+    </thead>
+
+    {% for Pumal in produit_count2 %}
+
+    <tbody>
+
+
+      <tr>
+
+
+
+        <td>{{Pumal.designation__nom}}</td>
+
+
+        <td>{{Pumal.ouest_commande}}</td>
+          <td>{{Pumal.centre_commande}}</td>
+          <td>{{Pumal.est_commande}}</td>
+          <td>{{Pumal.month}}</td>
+
+
+
+
+        </tr>
+
+
+    </tbody>
+
+                  {% endfor %}
+
+  </table>
+</html>
